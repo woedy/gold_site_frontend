@@ -1,19 +1,20 @@
-# Use an official Node.js runtime as a parent image
-FROM node:16-alpine
+# Use the official Node.js image.
+FROM node:16
 
-# Set the working directory inside the container
-WORKDIR /app
+# Set the working directory.
+WORKDIR /wghsoga_app
 
-# Copy package.json and install dependencies
-COPY package.json ./
+# Copy package.json and package-lock.json (if available).
+COPY package*.json ./
 
+# Install dependencies.
 RUN npm install
 
-# Copy the rest of the application code
+# Copy the rest of the application files.
 COPY . .
 
-# Expose port 5173 (default port for Vite)
-EXPOSE 5173
+# Expose the port the app runs on.
+#EXPOSE 5173
 
-# Run the Vite development server
-CMD ["yarn", "dev", "--host"]
+# Command to run the app.
+CMD ["npm", "run", "dev"]
