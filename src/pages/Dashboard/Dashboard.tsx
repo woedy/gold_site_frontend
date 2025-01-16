@@ -1,58 +1,137 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import CardDataStats from '../../components/CardDataStats';
 
-
 import { Link } from 'react-router-dom';
-import { baseUrl, baseUrlMedia, truncateText, userToken } from '../../constants';
+import {
+  baseUrl,
+  baseUrlMedia,
+  truncateText,
+  userToken,
+} from '../../constants';
+import ConfirmClaimModal from './modals/ConfirmClaimModal';
+import ClaimForm1Modal from './modals/ClaimForm1';
+import ClaimForm2Modal from './modals/ClaimForm2';
+import ClaimForm3Modal from './modals/ClaimForm3';
 
 const Dashboard: React.FC = () => {
-
   const [usersCount, setUsersCount] = useState('');
 
-  const [users, setUsers] = useState([]);
-  const [newss, setNews] = useState([]);
-
-
-
-
-  const [totalPages, setTotalPages] = useState(1); // Default to 1 to avoid issues
   const [loading, setLoading] = useState(false);
-
-  // State for delete confirmation modal
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [itemToDelete, setItemToDelete] = useState(null);
 
   // State for alerts
   const [alert, setAlert] = useState({ message: '', type: '' });
 
   const [activeIndex, setActiveIndex] = useState(null);
 
-  const portfolio = [
-    {
-      title: "Cryptocurrency",
-      content: [
-        { type: "Bitcoin", value: "$28,000" },
-        { type: "Ethereum", value: "$1,800" },
-        { type: "Cardano", value: "$0.35" },
-      ],
-    },
-    {
-      title: "Gold",
-      content: [
-        { type: "Gold Coins", value: "$1,900/oz" },
-        { type: "Gold Bars", value: "$1,850/oz" },
-        { type: "Jewelry", value: "$2,000/oz" },
-      ],
-    },
-  ];
-  const toggle = (index) => {
-    setActiveIndex(activeIndex === index ? null : index);
+  const [isModalOpen, setIsModalOpen] = useState(false);  // First Modal (confirmation modal)
+  const [isClaimForm1ModalOpen, setIsClaimForm1ModalOpen] = useState(false); 
+  const [isClaimForm2ModalOpen, setIsClaimForm2ModalOpen] = useState(false);  
+  const [isClaimForm3ModalOpen, setIsClaimForm3ModalOpen] = useState(false);  
+
+
+
+
+
+  const [modalBuyVisible, setModalBuyVisible] = useState(false); // State for modal visibility
+  const [modalBuyMessage, setModalBuyMessage] = useState(''); // Message to show in the modal
+
+  const showBuyModal = (action) => {
+    setModalBuyMessage(`${action} action cannot be taken right now.`);
+    setModalBuyVisible(true); // Show modal when Buy or Sell is clicked
+  };
+
+  const closeBuyModal = () => {
+    setModalBuyVisible(false); // Close the modal
   };
 
 
 
 
 
+
+
+  // Function to handle opening the first modal
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  // Function to handle closing the first modal
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+
+
+  const openClaimForm1Modal = () => {
+    setIsModalOpen(false);  // Close the confirmation modal
+    setIsClaimForm1ModalOpen(true);  // Open the form modal
+  };
+
+  const closeClaimForm1Modal = () => {
+    setIsClaimForm1ModalOpen(false);  // Close the form modal
+  };
+
+
+  const openClaimForm2Modal = () => {
+    setIsClaimForm1ModalOpen(false); 
+    setIsClaimForm2ModalOpen(true);  
+  };
+
+
+  const closeClaimForm2Modal = () => {
+    setIsClaimForm2ModalOpen(false); 
+  };
+
+
+
+  
+  const openClaimForm3Modal = () => {
+    setIsClaimForm2ModalOpen(false); 
+    setIsClaimForm3ModalOpen(true);  
+  };
+
+
+  const closeClaimForm3Modal = () => {
+    setIsClaimForm3ModalOpen(false); 
+  };
+
+
+
+  const portfolio = [
+    {
+      title: 'Cryptocurrency',
+      image:
+        'https://png.pngtree.com/png-vector/20211027/ourmid/pngtree-d-realistic-bitcoin-cryptocurrency-vector-icon-copper-gold-coin-with-shadow-png-image_4011395.png', // Example image path
+      content: [
+        { type: 'Bitcoin', value: '$ 28,000', quantity: '12', total: '$ 3,452', image: 'https://upload.wikimedia.org/wikipedia/commons/4/46/Bitcoin.svg' },
+        { type: 'Ethereum', value: '$ 1,800', quantity: '12', total: '$ 3,452', image: 'https://upload.wikimedia.org/wikipedia/commons/0/01/Ethereum_logo_2014.svg' },
+        { type: 'Cardano', value: '$ 0.35', quantity: '12', total: '$ 3,452', image: 'https://upload.wikimedia.org/wikipedia/commons/5/53/Cardano_Logo_2020.svg' },
+      ],
+    },
+    {
+      title: 'Gold',
+      image:
+        'https://png.pngtree.com/png-vector/20231026/ourmid/pngtree-realistic-gold-bars-png-image_10370401.png', // Example image path
+      content: [
+        { type: 'Gold Coins', value: '$ 1,900/oz', quantity: '12', total: '$ 3,452', image: 'https://www.example.com/gold-coins-image.png' },
+        { type: 'Gold Bars', value: '$ 1,850/oz', quantity: '12', total: '$ 3,452', image: 'https://www.example.com/gold-bars-image.png' },
+        { type: 'Jewelry', value: '$ 2,000/oz', quantity: '12', total: '$ 3,452', image: 'https://www.example.com/jewelry-image.png' },
+      ],
+    },
+  ];
+
+  const balanceInfo = {
+    'gp_balance': '$ 20,000',
+    'asset_value': '$ 12,056,343',
+    'assets_total': '$ 18,681,500'
+  }
+  
+
+
+
+  const toggle = (index) => {
+    setActiveIndex(activeIndex === index ? null : index);
+  };
 
   const fetchData = useCallback(async () => {
     setLoading(true);
@@ -73,15 +152,9 @@ const Dashboard: React.FC = () => {
 
       const data = await response.json();
       setUsersCount(data.data.users_count);
-      setNewsCount(data.data.news_count);
-      setEventsCount(data.data.events_count);
-      setProjectCount(data.data.projects_count);
+  
 
 
-      setUsers(data.data.users);
-      setNews(data.data.news);
-      setEvents(data.data.events);
-      setProjects(data.data.projects);
 
       console.log('#######################################');
 
@@ -93,41 +166,38 @@ const Dashboard: React.FC = () => {
     }
   }, [baseUrl, userToken]);
 
-
   useEffect(() => {
     fetchData();
   }, [fetchData]);
 
-
-
-
   return (
     <>
+      <div className="grid grid-cols-2 mb-5">
+        <p className="text-2xl text-xl font-semibold text-black">
+          My Portfolio
+        </p>
+        <div className="flex justify-end gap-4.5">
+          <button
+            className="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white"
+            type="submit"
+          >
+            Gift stored products
+          </button>
 
-    <div className='grid grid-cols-2 mb-5'> 
-      <p className='text-2xl text-xl font-semibold text-black'>My Portfolio</p>
-      <div className="flex justify-end gap-4.5">
-                    <button
-                      className="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white"
-                      type="submit"
-                    >
-                      Gift stored products
-                    </button>
 
-
-                    <button
-                      className="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white"
-                      type="submit"
-                    >
-                      Deliver Stored products
-                    </button>
-
-               
-                  </div>
-    </div>
+  <Link to="/selection" className="text-primary">
+  <button
+            className="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white"
+          >
+            Deliver Stored products
+          </button>
+                    </Link>
+  
+        </div>
+      </div>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3 2xl:gap-7.5">
-        <CardDataStats title="Gold Palace Pay Balance" total="$ 0.00">
+        <CardDataStats title="Gold Palace Pay Balance" total={balanceInfo.gp_balance}>
           <svg
             className="fill-primary dark:fill-white"
             width="22"
@@ -146,7 +216,7 @@ const Dashboard: React.FC = () => {
             />
           </svg>
         </CardDataStats>
-        <CardDataStats title="Value of stored products" total="$ 1,500,000.00">
+        <CardDataStats title="Value of stored products" total={balanceInfo.asset_value}>
           <svg
             className="fill-primary dark:fill-white"
             width="20"
@@ -169,7 +239,7 @@ const Dashboard: React.FC = () => {
             />
           </svg>
         </CardDataStats>
-        <CardDataStats title="Assets Total" total="$ 18,681,500.00">
+        <CardDataStats title="Assets Total" total={balanceInfo.assets_total}>
           <svg
             className="fill-primary dark:fill-white"
             width="22"
@@ -188,73 +258,134 @@ const Dashboard: React.FC = () => {
             />
           </svg>
         </CardDataStats>
-        
       </div>
 
-
-
-    <div className="mt-3 grid grid-cols-1 gap-4 md:mt-3 md:gap-6 2xl:mt3-3 2xl:gap-7.5">
-
-
-      <div className=" dark:border-strokedark dark:bg-boxdark">
-      <div className="py-6 px-0 md:px-0 xl:px-7.5">
-        <h4 className="text-xl font-semibold text-black dark:text-white">
-         Assets
-        </h4>
-
-        <div className="w-full my-8 rounded-xl border border-stroke bg-white shadow-default">
-      {portfolio.map((item, index) => (
-        <div key={index} className="border-b border-gray-100">
-          <button
-            onClick={() => toggle(index)}
-            className="w-full flex justify-between items-center py-4 px-6 text-left font-semibold text-gray-800 focus:outline-none"
-          >
-            {item.title}
-            <span
-              className={`transform transition-transform ${
-                activeIndex === index ? "rotate-180" : "rotate-0"
-              }`}
-            >
-              ▼
-            </span>
-          </button>
-          {activeIndex === index && (
-            <div className="px-6 py-4 bg-gray-50">
-              <table className="w-full table-auto border-collapse">
-                <thead>
-                  <tr className="bg-gray-100">
-                    <th className=" px-4 py-2 text-left">Type</th>
-                    <th className="px-4 py-2 text-left">Value</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {item.content.map((asset, idx) => (
-                    <tr key={idx}>
-                      <td className="px-4 py-2">{asset.type}</td>
-                      <td className="px-4 py-2">{asset.value}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
+      <div className="mt-3 grid grid-cols-1 gap-4 md:mt-3 md:gap-6 2xl:mt3-3 2xl:gap-7.5">
+      <div className="mt-3 grid grid-cols-1 gap-4 md:mt-3 md:gap-6 2xl:mt3-3 2xl:gap-7.5">
+      <div className="dark:border-strokedark dark:bg-boxdark">
+        <div className="py-6 px-0 md:px-0">
+          <h4 className="text-xl font-semibold text-black dark:text-white">Assets</h4>
+          <div className="w-full my-8 rounded-xl border border-stroke bg-white shadow-default">
+            {portfolio.map((item, index) => (
+              <div key={index} className="border-b border-graytrans">
+                <button
+                  onClick={() => toggle(index)}
+                  className="w-full shadow-default flex justify-between items-center py-4 px-6 text-left font-semibold text-gray-800 focus:outline-none"
+                >
+                  <div className="flex items-center">
+                    {item.image && (
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        className="w-8 h-8 mr-2 rounded-full object-cover"
+                      />
+                    )}
+                    <span>{item.title}</span>
+                  </div>
+                  <span
+                    className={`transform transition-transform ${
+                      activeIndex === index ? 'rotate-180' : 'rotate-0'
+                    }`}
+                  >
+                    ▼
+                  </span>
+                </button>
+                {activeIndex === index && (
+                  <div className="px-6 py-4 bg-gray-50">
+                    <table className="w-full table-auto border-collapse">
+                      <thead>
+                        <tr className="bg-gray-100">
+                          <th className="px-4 py-2 text-left">Asset</th>
+                          <th className="px-4 py-2 text-left">Value</th>
+                          <th className="px-4 py-2 text-left">Quantity</th>
+                          <th className="px-4 py-2 text-left">Total</th>
+                          <th className="px-4 py-2 text-left">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {item.content.map((asset, idx) => (
+                          <tr key={idx}>
+                            <td className="px-4 py-2 flex items-center space-x-2">
+                              {asset.image && (
+                                <img
+                                  src={asset.image}
+                                  alt={asset.type}
+                                  className="w-8 h-8 object-cover"
+                                />
+                              )}
+                              <span>{asset.type}</span>
+                            </td>
+                            <td className="px-4 py-2">{asset.value}</td>
+                            <td className="px-4 py-2">{asset.quantity}</td>
+                            <td className="px-4 py-2">{asset.total}</td>
+                            <td className="px-4 py-2 flex space-x-2">
+                              {/* Outlined Buy and Sell buttons */}
+                              <button
+                                onClick={() => showBuyModal('Buy/Sell')}
+                                className="border-2 border-graytrans text-graytrans px-4 py-2 rounded-md disabled:opacity-50"
+                              >
+                                Buy / Sell
+                              </button>
+                          
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
-      ))}
-    </div>
-
       </div>
 
-   
-
-
+      {/* Modal */}
+      {modalBuyVisible && (
+        <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-md shadow-lg max-w-sm mx-auto">
+            <h2 className="text-xl font-semibold mb-4 text-red-600">{modalBuyMessage}</h2>
+            <button
+              onClick={closeBuyModal}
+              className="bg-blue-500 text-red px-4 py-2 rounded-md hover:bg-blue-600"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
+</div>
 
+
+      <div>
+      {/* Main Content */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+        <div className="text-center md:text-left">
+          <p className="text-xl font-semibold text-gray-800">
+            Your Gold Assets Are Ready for Claim
+          </p>
+        </div>
+
+        <div className="flex justify-center md:justify-end">
+          <button
+            className="flex justify-center rounded bg-primary py-2 px-6 font-medium text-white hover:bg-opacity-90"
+            onClick={openModal} // Trigger the first modal on click
+          >
+            Claim Now
+          </button>
+        </div>
+      </div>
+
+
+      <ConfirmClaimModal isModalOpen={isModalOpen} closeModal={closeModal} openClaimForm1Modal={openClaimForm1Modal} />
+
+      <ClaimForm1Modal isClaimForm1ModalOpen={isClaimForm1ModalOpen} closeClaimForm1Modal={closeClaimForm1Modal} openClaimForm2Modal={openClaimForm2Modal} />
+
+      <ClaimForm2Modal isClaimForm2ModalOpen={isClaimForm2ModalOpen} closeClaimForm2Modal={closeClaimForm2Modal} openClaimForm3Modal={openClaimForm3Modal} />
+
+      <ClaimForm3Modal isClaimForm3ModalOpen={isClaimForm3ModalOpen} closeClaimForm2Modal={closeClaimForm2Modal} openClaimForm4Modal={undefined} />
     </div>
-
-
-
-
-
 
 
 

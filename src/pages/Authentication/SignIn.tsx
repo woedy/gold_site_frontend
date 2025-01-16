@@ -103,24 +103,22 @@ const SignIn: React.FC = () => {
         <div className="flex flex-wrap items-center ">
           <div className="hidden w-full xl:block xl:w-1/2 bg-primary">
             <div className="py-17.5 px-26 text-center">
-              <h2 className="text-3xl font-bold text-white mb-2">WGHS-OGA</h2>
+              <h2 className="text-3xl font-bold text-white mb-2">GP</h2>
               <p className="2xl:px-15 text-xl text-white mb-2">
-                Wesley Girls' High School - Old Girls' Association
+               Gold Palace
               </p>
               <p className="2xl:px-15 text-white">
-                Live Pure, Speak True, Right Wrong, Follow the King
+                We protect your gold
               </p>
 
-              <span className="mt-15 inline-block">
-                <img className="h-50" src={Logo} alt="Logo" />
-              </span>
+             
             </div>
           </div>
 
           <div className="w-full border-stroke dark:border-strokedark xl:w-1/2 xl:border-l-2">
             <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
               <h2 className="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
-                Sign Up to WGHS-OGA Admin
+                Sign Up to Gold Palace
               </h2>
 
               {emailError && (

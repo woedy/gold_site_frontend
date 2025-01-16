@@ -1,9 +1,9 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
-const flowbite = require("flowbite-react/tailwind");
+
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}', flowbite.content(),
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}',
   ],
   darkMode: 'class',
   theme: {
@@ -34,6 +34,7 @@ module.exports = {
         secondary: '#80CAEE',
         stroke: '#E2E8F0',
         gray: '#EFF4FB',
+        graytrans: '#CCCCCC',
         graydark: '#333A48',
         'gray-2': '#F7F9FC',
         'gray-3': '#FAFAFA',
@@ -255,7 +256,5 @@ module.exports = {
       },
     },
   },
-  plugins: [
-    flowbite.plugin(),
-  ],
+  plugins: [],
 }
