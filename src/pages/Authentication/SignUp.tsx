@@ -145,19 +145,23 @@ const SignUp: React.FC = () => {
 
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <div className="flex flex-wrap items-center">
-        <div className="hidden w-full xl:block xl:w-1/2 bg-primary">
-            <div className="py-17.5 px-26 text-center">
-              <h2 className="text-3xl font-bold text-white mb-2">GP</h2>
-              <p className="2xl:px-15 text-xl text-white mb-2">
-               Gold Palace
-              </p>
-              <p className="2xl:px-15 text-white">
-                We protect your gold
-              </p>
+        <div className="hidden xl:block xl:w-1/2 bg-primary h-[500px]">
+  <div className="flex items-center justify-center h-full px-6 py-8 text-center">
+    <div>
 
-             
-            </div>
-          </div>
+    <img
+                      src="https://png.pngtree.com/png-vector/20231026/ourmid/pngtree-realistic-gold-bars-png-image_10370401.png"
+                      alt="logo"
+                        className="w-50 h-50 mr-2 rounded-full object-cover"
+                      />
+      <h2 className="text-3xl font-bold text-white mb-2">Gold Palace</h2>
+      <p className="text-white">
+        We protect your gold
+      </p>
+    </div>
+  </div>
+</div>
+
           <div className="w-full border-stroke dark:border-strokedark xl:w-1/2 xl:border-l-2">
             <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
               <h2 className="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">

@@ -137,7 +137,7 @@ const Dashboard: React.FC = () => {
     setLoading(true);
     try {
       const response = await fetch(
-        `${baseUrl}api/homepage/admin/get-dashboard-data/`,
+        `${baseUrl}api/dashboard/`,
         {
           headers: {
             'Content-Type': 'application/json',

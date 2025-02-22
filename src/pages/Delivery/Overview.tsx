@@ -226,20 +226,20 @@ const Overview: React.FC = () => {
 
         <div className='grid grid-cols-2  gap-4 text-start'>
         <h3 className="mt-4">Shipping Price</h3>
-        <h3 className="mt-4">$ 1,500,000</h3>
+        <h3 className="mt-4">$ 50,000</h3>
 
           </div>
 
           <div className='grid grid-cols-2 gap-4 text-start'>
           <h3 className="mt-4">VAT</h3>
-            <h3 className="mt-4">$ 1,500,000</h3>
+            <h3 className="mt-4">$ 1,500</h3>
 
             </div>
             <div className='grid grid-cols-2 gap-4 text-start'>
             <h3 className="mt-4">Total Value</h3>
 
             <p className="text-3xl mt-2 font-bold text-green-600 mb-8">
-              $ 30,100 
+            $ 130,100,345 
             </p>
             </div>
             <div>

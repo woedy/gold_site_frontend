@@ -181,7 +181,7 @@ const Selection: React.FC = () => {
             <h3 className="mt-4">Total Value</h3>
 
             <p className="text-3xl mt-2 font-bold text-green-600 mb-8">
-              $ 30,100 
+              $ 130,100,345 
             </p>
 
 <Link to={'/delivery'}>

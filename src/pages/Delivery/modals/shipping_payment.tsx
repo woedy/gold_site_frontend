@@ -34,7 +34,7 @@ const ShippingPaymentModal = ({
               <div className="col-span-1">
                 <p className="font-bold text-xl">Total Shipping Fee: </p>
                 <p className="text-3xl mt-4 font-bold text-green-600 mb-8">
-                  $ 30,100 
+                $ 50,000
                 </p>
 
                 <h4 className="font-semibold mb-3 text-xl">
@@ -43,7 +43,7 @@ const ShippingPaymentModal = ({
 
                 <ul className="list-decimal m-4">
                   <li>Scan QR Code with Your Crypto Wallet </li>
-                  <li>Verify Amount: $30,100 </li>
+                  <li>Verify Amount: $ 50,000</li>
                   <li> Transaction Fee: Included </li>
                   <li>Confirm Payment</li>
                   <li>Save Transaction Receipt </li>

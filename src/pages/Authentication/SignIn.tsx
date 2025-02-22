@@ -41,7 +41,7 @@ const SignIn: React.FC = () => {
       return;
     }
 
-    const url = baseUrl + 'api/accounts/login-admin/';
+    const url = baseUrl + 'api/accounts/login-user/';
     const data = {
       email,
       password,
@@ -76,6 +76,8 @@ const SignIn: React.FC = () => {
         console.log('Login successful');
         console.log(responseData.data.token);
         navigate('/dashboard');
+        window.location.reload();
+
       } else if (response.status === 400) {
         setEmailError(
           responseData.errors.email ? responseData.errors.email[0] : '',
@@ -98,29 +100,35 @@ const SignIn: React.FC = () => {
   return (
     <>
       <Breadcrumb pageName="Sign In" />
-
+  
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-        <div className="flex flex-wrap items-center ">
-          <div className="hidden w-full xl:block xl:w-1/2 bg-primary">
-            <div className="py-17.5 px-26 text-center">
-              <h2 className="text-3xl font-bold text-white mb-2">GP</h2>
-              <p className="2xl:px-15 text-xl text-white mb-2">
-               Gold Palace
-              </p>
-              <p className="2xl:px-15 text-white">
-                We protect your gold
-              </p>
+        <div className="flex flex-wrap items-center">
+    {/* Left Section */}
+<div className="hidden xl:block xl:w-1/2 bg-primary h-[500px]">
+  <div className="flex items-center justify-center h-full px-6 py-8 text-center">
+    <div>
 
-             
-            </div>
-          </div>
+    <img
+                      src="https://png.pngtree.com/png-vector/20231026/ourmid/pngtree-realistic-gold-bars-png-image_10370401.png"
+                      alt="logo"
+                        className="w-50 h-50 mr-2 rounded-full object-cover"
+                      />
+      <h2 className="text-3xl font-bold text-white mb-2">Gold Palace</h2>
+      <p className="text-white">
+        We protect your gold
+      </p>
+    </div>
+  </div>
+</div>
 
-          <div className="w-full border-stroke dark:border-strokedark xl:w-1/2 xl:border-l-2">
-            <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
+  
+          {/* Right Section */}
+          <div className="w-full xl:w-1/2 xl:border-l-2 border-stroke dark:border-strokedark">
+            <div className="w-full p-4 sm:p-12 xl:p-16">
               <h2 className="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
                 Sign Up to Gold Palace
               </h2>
-
+  
               {emailError && (
                 <div
                   className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-3"
@@ -130,7 +138,7 @@ const SignIn: React.FC = () => {
                   <span className="block sm:inline"> {emailError}</span>
                 </div>
               )}
-
+  
               <form onSubmit={handleSubmit}>
                 <div className="mb-4">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
@@ -138,16 +146,15 @@ const SignIn: React.FC = () => {
                   </label>
                   <div className="relative">
                     <input
-                                id="email"
-                                name="email"
-                                type="email"
-                                autoComplete="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
+                      id="email"
+                      name="email"
+                      type="email"
+                      autoComplete="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                       placeholder="Enter your email"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     />
-
                     <span className="absolute right-4 top-4">
                       <svg
                         className="fill-current"
@@ -167,22 +174,21 @@ const SignIn: React.FC = () => {
                     </span>
                   </div>
                 </div>
-
+  
                 <div className="mb-6">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
                     Re-type Password
                   </label>
                   <div className="relative">
                     <input
-                     id="password"
-                     name="password"
-                     type="password"
-                     value={password}
-                     onChange={(e) => setPassword(e.target.value)}
+                      id="password"
+                      name="password"
+                      type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                       placeholder="6+ Characters, 1 Capital letter"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     />
-
                     <span className="absolute right-4 top-4">
                       <svg
                         className="fill-current"
@@ -206,46 +212,36 @@ const SignIn: React.FC = () => {
                     </span>
                   </div>
                 </div>
-
+  
                 <div className="mb-5">
-
-                {loading ? (
-    <div role="status" className="flex flex-col items-center justify-center h-full space-y-4">
-        <svg
-            aria-hidden="true"
-            className="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-green"
-            viewBox="0 0 100 101"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-        >
-            <path
-                d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                fill="currentColor"
-            />
-            <path
-                d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                fill="currentFill"
-            />
-        </svg>
-        <span className="text-green">Loading...</span>
-    </div>
-) : (
-    <input
-        type="submit"
-        value="Sign In"
-        className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
-    />
-)}
-
-                </div>
-
-                <div className="mt-6 text-center">
-                  <p>
-                    Don’t have any account?{' '}
-                    <Link to="/signup" className="text-primary">
-                      Sign Up
-                    </Link>
-                  </p>
+                  {loading ? (
+                    <div role="status" className="flex flex-col items-center justify-center h-full space-y-4">
+                      <svg
+                        aria-hidden="true"
+                        className="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-green"
+                        viewBox="0 0 100 101"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                          fill="currentColor"
+                        />
+                        <path
+                          d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.526 12.5 75.0004 12.5C69.2135 12.5 63.5476 14.8242 58.7359 18.2496C52.6344 22.214 47.3305 28.6221 44.4575 36.0113C43.3799 38.6195 45.3567 41.4138 48.0275 41.3935C50.6983 41.3731 53.1951 38.7531 54.0415 36.4167C56.4216 30.5124 60.9733 26.5342 66.2778 25.5126C72.039 24.4402 77.4847 27.2353 79.0068 32.3967C79.4685 34.3598 82.0316 35.2739 83.6415 34.7333C85.2515 34.1927 86.1657 31.6297 85.6249 29.0199C84.6697 24.3613 81.7378 21.1148 78.2994 19.5747C75.1246 18.2127 71.6611 18.2346 68.3747 19.6183C62.3968 22.3489 58.1982 27.2095 55.5131 32.5572C54.7955 34.2886 56.7913 36.3257 58.8104 35.9612C63.2647 34.9409 67.3182 36.8883 71.2412 40.2061C76.7409 44.8175 80.3467 50.7715 81.9351 56.9515C83.3638 61.3201 87.9193 63.5164 92.4152 61.6915C94.5364 60.5801 96.507 59.1501 97.7872 57.5108C99.2395 55.7934 99.4823 53.0506 98.6238 50.6545C97.8843 48.3114 95.5928 46.7144 93.9676 45.0409Z"
+                          fill="currentFill"
+                        />
+                      </svg>
+                      <span className="text-gray-400">Logging in your account...</span>
+                    </div>
+                  ) : (
+                    <button
+                      type="submit"
+                      className="flex w-full justify-center rounded-lg border border-primary bg-primary py-4 text-center text-base font-medium text-white hover:bg-opacity-90 focus:outline-none focus:ring-2 focus:ring-primary dark:bg-primary dark:hover:bg-opacity-90"
+                    >
+                      Sign In
+                    </button>
+                  )}
                 </div>
               </form>
             </div>
@@ -254,6 +250,7 @@ const SignIn: React.FC = () => {
       </div>
     </>
   );
+  
 };
 
 export default SignIn;

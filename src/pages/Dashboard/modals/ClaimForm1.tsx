@@ -34,6 +34,8 @@ const ClaimForm1Modal = ({isClaimForm1ModalOpen, closeClaimForm1Modal, openClaim
           <p className="font-semibold">Fee Breakdown:</p>
           <ul className="list-disc p-2 mb-3">
             <li>Fixed Authentication Fee: $ 100</li>
+            <li>Outstanding Storage Fees: $ 30,000</li>
+            <li>Tax (2%): $ 30,000</li>
             <li>Processing Fee (2%): $ 30,000</li>
             <li>Total Claim Fee: $ 30,100</li>
           </ul>

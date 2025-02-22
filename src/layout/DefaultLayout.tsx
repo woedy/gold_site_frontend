@@ -1,4 +1,5 @@
-import Header from '../components/Header/index';
+import Header from '../components/Header';
+import Header2 from '../components/Header/index2';
 import Sidebar from '../components/Sidebar';
 import React, { ReactNode, useState } from 'react';
 
@@ -14,16 +15,27 @@ const DefaultLayout: React.FC<DefaultLayoutProps> = ({ children, pathname, hidde
   // Determine if the sidebar and header should be hidden
   const hideSidebarAndHeader = hiddenOnRoutes.includes(pathname);
 
+  // Use Header2 for LandingPage, Header for other pages
+  const isLandingPage = pathname === '/';
+
   return (
     <div className="dark:bg-boxdark-2 dark:text-bodydark">
       <div className="flex h-screen overflow-hidden">
-   {/*      {!hideSidebarAndHeader && (
+        {/* Sidebar (if applicable) */}
+        {/* {!hideSidebarAndHeader && (
           <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-        )}
- */}
+        )} */}
+
         <div className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
+          {/* Conditional Rendering of Header */}
           {!hideSidebarAndHeader && (
-            <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+            <>
+              {isLandingPage ? (
+                <Header2 sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+              ) : (
+                <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+              )}
+            </>
           )}
 
           <main>

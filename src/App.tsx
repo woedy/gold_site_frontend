@@ -19,8 +19,9 @@ import TrackingInitiated from './pages/Tracking/TrackingInitiated';
 import TrackingPacked from './pages/Tracking/TrackingPacked';
 import TrackingTransit from './pages/Tracking/TrackingTransit';
 import TrackingDelivery from './pages/Tracking/TrackingDelivery';
+import LandingPage from './pages/LandingPage/LandingPage';
 
-const hiddenOnRoutes = ['/', '/signup', '/signin'];
+const hiddenOnRoutes = [ '/signup', '/signin'];
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -43,8 +44,8 @@ function App() {
           index
           element={
             <>
-              <PageTitle title="Sign In | Gold Palace" />
-              <SignIn />
+              <PageTitle title="Welcome To Gold Palace" />
+              <LandingPage />
             </>
           }
         />
